@@ -79,31 +79,26 @@ function moveKeys (e) {
     }
 }
 function moveUp () {
-    console.log("Arriba");
-    playerPosition.y -= elementsSize
-    startGame()
-    console.log(playerPosition);
-    console.log(canvasSize);
-    
+    if ((playerPosition.y - elementsSize)>= elementsSize) {
+        playerPosition.y -= elementsSize
+    }
+    startGame()  
 }
 function moveDown () {
-    console.log("Abajo");
-    playerPosition.y += elementsSize
+    if((playerPosition.y + elementsSize)<= canvasSize - elementsSize) {
+        playerPosition.y += elementsSize
+    }
     startGame()
-    console.log(playerPosition);
-    console.log(canvasSize);
 }
 function moveLeft () {
-    console.log("Izquierda");
-    playerPosition.x -= elementsSize
+    if((playerPosition.x - elementsSize)>= elementsSize) {
+        playerPosition.x -= elementsSize
+    }
     startGame()
-    console.log(playerPosition);
-    console.log(canvasSize);
 }
 function moveRight () {
-    console.log("Derecha");
-    playerPosition.x += elementsSize
+    if((playerPosition.x + elementsSize)<= canvasSize - elementsSize) {
+        playerPosition.x += elementsSize
+    }
     startGame()
-    console.log(playerPosition);
-    console.log(canvasSize);
 }
