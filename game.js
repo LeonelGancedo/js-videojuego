@@ -4,6 +4,7 @@ const btnUp = document.querySelector('#up')
 const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
+const livesCount = document.querySelector('#livesId')
 
 let canvasSize;
 let elementsSize;
@@ -50,6 +51,7 @@ function startGame() {
     enemyPositions = []
 
     //ASIGNACION DE VALORES
+    showLives()
     mapRowCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
         let emoji = emojis[col]
@@ -157,7 +159,7 @@ function levelWin() {
 function levelLose() {
     lives--
     console.log("Perdiste");
-    
+
     if (lives <= 0) {
         level = 0
         lives = 3
@@ -170,4 +172,7 @@ function levelLose() {
 }
 function gameWin() {
     console.log("Terminaste el juego");
+}
+function showLives() {
+    livesCount.innerHTML = emojis["HEART"].repeat(lives)
 }
