@@ -1,6 +1,5 @@
 const canvas = document.querySelector('#game')
 const game = canvas.getContext('2d')
-const map = maps[0]
 const btnUp = document.querySelector('#up')
 const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
@@ -8,6 +7,8 @@ const btnDown = document.querySelector('#down')
 
 let canvasSize;
 let elementsSize;
+let level = 0
+let lives = 3
 
 const playerPosition = {
     x: undefined,
@@ -35,12 +36,20 @@ function setCanvasSize () {
 function startGame() {
     game.font = elementsSize + "px Verdana"
     game.textAlign = "center"
+
+    const map = maps[level]
+
+    if (!map) {
+        gameWin()
+        return
+    }
     const mapRowCols = map.trim().split("\n").map(row => row.trim().split(""))
 
     //Liempieza
     game.clearRect(0,0, canvasSize, canvasSize)
     enemyPositions = []
 
+    //ASIGNACION DE VALORES
     mapRowCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
         let emoji = emojis[col]
@@ -68,17 +77,17 @@ function startGame() {
     });
     movePlayer()
 }
-
-
 function movePlayer () {
+    //DETECTAR SI GANASTE
     const giftColisionX = playerPosition.x.toFixed(2) == giftPosition.x.toFixed(2)
     const giftColisionY = playerPosition.y.toFixed(2) == giftPosition.y.toFixed(2)
     const giftColision = giftColisionX && giftColisionY
 
     if(giftColision) {
-        console.log("Ganaste");
+        levelWin()
     }
 
+    //DETECTAR SI PERDISTE
     const enemyColsion = enemyPositions.find(enemy => {
         const enemyColsionX = enemy.x.toFixed(2) == playerPosition.x.toFixed(2)
         const enemyColsionY = enemy.y.toFixed(2) == playerPosition.y.toFixed(2)
@@ -86,13 +95,14 @@ function movePlayer () {
     })
 
     if(enemyColsion) {
-        console.log("Perdiste");
+        levelLose()
     }
 
-
+    //DIBUJAR AL PLAYER
     game.fillText(emojis["PLAYER"], playerPosition.x, playerPosition.y)
 }
 
+//MOVIMIENTOS
 btnUp.addEventListener('click', moveUp)
 btnDown.addEventListener('click', moveDown)
 btnLeft.addEventListener('click', moveLeft)
@@ -136,4 +146,28 @@ function moveRight () {
         playerPosition.x += elementsSize
         startGame()
     }
+}
+
+//GANAR O PERDER
+function levelWin() {
+    console.log("Ganaste");
+    level++
+    startGame() 
+}
+function levelLose() {
+    lives--
+    console.log("Perdiste");
+    
+    if (lives <= 0) {
+        level = 0
+        lives = 3
+    }
+
+    playerPosition.x = undefined
+    playerPosition.y = undefined
+    startGame()
+    
+}
+function gameWin() {
+    console.log("Terminaste el juego");
 }
