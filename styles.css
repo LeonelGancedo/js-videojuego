@@ -61,6 +61,36 @@ p {
     width: 100%;
 }
 
+.reset {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 20px;
+    height: 100vh;
+    width: 100vw;
+}
+
+.reset__cuadro {
+    background-color: #280144;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    gap: 20px;
+    padding: 5px;
+    border: 5px solid black;
+    border-radius: 12px;
+}
+
+
+.inactive {
+    display: none;
+}
 @media (max-width: 440px) {
     button {
         margin-top: 5px;

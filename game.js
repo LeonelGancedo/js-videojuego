@@ -1,13 +1,21 @@
 const canvas = document.querySelector('#game')
 const game = canvas.getContext('2d')
+const gameContainer = document.querySelector('.game-container')
 const btnUp = document.querySelector('#up')
 const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
 const livesCount = document.querySelector('#livesId')
 const timeCount = document.querySelector('#timeId')
+const timeCountFinal = document.querySelector('#time2Id')
 const recordCount = document.querySelector('#recordId')
+const recordCountFinal = document.querySelector('#record2Id')
 const resultP = document.querySelector('#result')
+const resetArea = document.querySelector('#resetId')
+const btnResetY = document.querySelector('#resetYes')
+const btnResetN = document.querySelector('#resetNo')
+const btnPlayAgain = document.querySelector('#playAgain')
+const resetCuadro = document.querySelector('.reset__cuadro')
 
 
 let canvasSize;
@@ -46,10 +54,11 @@ function setCanvasSize () {
 
     playerPosition.x = undefined
     playerPosition.y = undefined
+
     startGame()
 }
 function startGame() {
-    game.font = elementsSize + "px Verdana"
+    game.font = elementsSize*0.92 + "px Verdana"
     game.textAlign = "end"
 
     const map = maps[level]
@@ -195,13 +204,20 @@ function gameWin() {
     if (recordStorage) {
         if (recordStorage >timeActual) {
             localStorage.setItem('record', timeActual)
+            timeCountFinal.innerHTML = timeActual
             resultP.innerHTML = 'Mejoraste tu record 🏆'
+            resetGame()
         } else {
+            timeCountFinal.innerHTML = timeActual
             resultP.innerHTML = 'Casi pero no 😢. Intentalo de nuevo 💪'
+            resetGame()
         }
     } else {
         localStorage.setItem('record', timeActual)  
+        timeCountFinal.innerHTML = timeActual
         resultP.innerHTML = 'Lo diste todo en tu primera vez, trata de mejorar 😁'
+        resetGame()
+
     }
 }
 function showLives() {
@@ -213,9 +229,26 @@ function showTime() {
 }
 function showRecord() {
     recordCount.innerHTML = localStorage.getItem('record')
+    recordCountFinal.innerHTML = localStorage.getItem('record')
 }
 
 //Numeros
 function fixedNumber(n) {
     return Number(n.toFixed(0))
 }
+
+//REINTENTAR AL PERDER
+function resetGame(){
+    resetArea.classList.remove('inactive')
+    gameContainer.classList.add('inactive')
+}
+function resetYes () {
+    location.reload()
+}
+function resetNo () {
+    resetCuadro.classList.add('inactive')
+    btnPlayAgain.classList.remove('inactive')
+}
+btnResetY.addEventListener('click', resetYes)
+btnResetN.addEventListener('click', resetNo)
+btnPlayAgain.addEventListener('click', resetYes)
