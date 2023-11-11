@@ -42,8 +42,8 @@ function setCanvasSize () {
     canvasSize = Math.ceil(canvasSize)
     canvas.setAttribute('width', canvasSize)
     canvas.setAttribute('height', canvasSize)
-    elementsSize = (canvasSize / 10)
-    Math.ceil(elementsSize)
+    elementsSize = Math.ceil((canvasSize / 10))
+    
     playerPosition.x = undefined
     playerPosition.y = undefined
     startGame()
