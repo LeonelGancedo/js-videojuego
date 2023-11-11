@@ -14,6 +14,11 @@ const playerPosition = {
     y: undefined
 }
 
+const giftPosition = {
+    x: undefined,
+    y: undefined
+}
+
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
 
@@ -44,17 +49,26 @@ function startGame() {
                 playerPosition.y = y
                 console.log(playerPosition);
             }
+        } else if (col == "I") {
+            giftPosition.x = x
+            giftPosition.y = y
         }
 
         game.fillText(emoji, x, y)
         })
     });
-
     movePlayer()
 }
 
 
 function movePlayer () {
+    const giftColisionX = playerPosition.x.toFixed(2) == giftPosition.x.toFixed(2)
+    const giftColisionY = playerPosition.y.toFixed(2) == giftPosition.y.toFixed(2)
+    const giftColision = giftColisionX && giftColisionY
+
+    if(giftColision) {
+        console.log("Terminaste");
+    }
     game.fillText(emojis["PLAYER"], playerPosition.x, playerPosition.y)
 }
 
@@ -81,24 +95,24 @@ function moveKeys (e) {
 function moveUp () {
     if ((playerPosition.y - elementsSize)>= elementsSize) {
         playerPosition.y -= elementsSize
+        startGame()  
     }
-    startGame()  
 }
 function moveDown () {
-    if((playerPosition.y + elementsSize)<= canvasSize - elementsSize) {
+    if((playerPosition.y + elementsSize) < canvasSize) {
         playerPosition.y += elementsSize
+        startGame()
     }
-    startGame()
 }
 function moveLeft () {
-    if((playerPosition.x - elementsSize)>= elementsSize) {
+    if((playerPosition.x - elementsSize) >= elementsSize) {
         playerPosition.x -= elementsSize
+        startGame()
     }
-    startGame()
 }
 function moveRight () {
-    if((playerPosition.x + elementsSize)<= canvasSize - elementsSize) {
+    if((playerPosition.x + elementsSize) < canvasSize ) {
         playerPosition.x += elementsSize
+        startGame()
     }
-    startGame()
 }
