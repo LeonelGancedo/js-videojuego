@@ -89,7 +89,7 @@ p {
 
 
 .inactive {
-    display: none;
+    display: none !important;
 }
 @media (max-width: 440px) {
     button {
