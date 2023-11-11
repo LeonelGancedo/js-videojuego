@@ -48,7 +48,7 @@ function setCanvasSize () {
     startGame()
 }
 function startGame() {
-    game.font = elementsSize*0.9 + "px Verdana"
+    game.font = elementsSize + "px Verdana"
     game.textAlign = "end"
 
     const map = maps[level]
