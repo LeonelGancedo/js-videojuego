@@ -37,15 +37,19 @@ window.addEventListener('resize', setCanvasSize)
 
 function setCanvasSize () {
     window.innerHeight > window.innerWidth ? 
-    canvasSize = window.innerWidth * 0.8 : canvasSize = window.innerHeight * 0.8
+    canvasSize = window.innerWidth * 0.7 : canvasSize = window.innerHeight * 0.7
+
+    canvasSize = Number(canvasSize.toFixed(0))
     canvas.setAttribute('width', canvasSize)
     canvas.setAttribute('height', canvasSize)
-    elementsSize = (canvasSize / 11)
+    elementsSize = (canvasSize / 10)
+    playerPosition.x = undefined
+    playerPosition.y = undefined
     startGame()
 }
 function startGame() {
-    game.font = elementsSize + "px Verdana"
-    game.textAlign = "center"
+    game.font = elementsSize*0.9 + "px Verdana"
+    game.textAlign = "end"
 
     const map = maps[level]
 
@@ -77,7 +81,6 @@ function startGame() {
             if (!playerPosition.x && !playerPosition.y) {
                 playerPosition.x = x
                 playerPosition.y = y
-                console.log(playerPosition);
             }
         } else if (col == "I") {
             giftPosition.x = x
@@ -212,4 +215,9 @@ function showTime() {
 }
 function showRecord() {
     recordCount.innerHTML = localStorage.getItem('record')
+}
+
+//Numeros
+function fixedNumber(n) {
+    return Number(n.toFixed(0))
 }
