@@ -39,10 +39,11 @@ function setCanvasSize () {
     window.innerHeight > window.innerWidth ? 
     canvasSize = window.innerWidth * 0.7 : canvasSize = window.innerHeight * 0.7
 
-    canvasSize = Number(canvasSize.toFixed(0))
+    canvasSize = Math.ceil(canvasSize)
     canvas.setAttribute('width', canvasSize)
     canvas.setAttribute('height', canvasSize)
     elementsSize = (canvasSize / 10)
+    Math.ceil(elementsSize)
     playerPosition.x = undefined
     playerPosition.y = undefined
     startGame()
@@ -74,8 +75,8 @@ function startGame() {
     mapRowCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
         let emoji = emojis[col]
-        let x = elementsSize * (colIndex + 1)
-        let y = elementsSize * (rowIndex + 1)
+        let x = Math.ceil(elementsSize * (colIndex + 1))
+        let y = Math.ceil(elementsSize * (rowIndex + 1))
                 
         if(col == "O") {
             if (!playerPosition.x && !playerPosition.y) {
@@ -144,39 +145,37 @@ function moveKeys (e) {
     }
 }
 function moveUp () {
-    if ((playerPosition.y - elementsSize)>= elementsSize) {
-        playerPosition.y -= elementsSize
+    if ((playerPosition.y - Math.ceil(elementsSize))>= Math.ceil(elementsSize)) {
+        playerPosition.y -= Math.ceil(elementsSize)
         startGame()  
     }
 }
 function moveDown () {
-    if((playerPosition.y + elementsSize) < canvasSize) {
-        playerPosition.y += elementsSize
+    if((playerPosition.y + Math.ceil(elementsSize)) < Math.ceil(canvasSize)) {
+        playerPosition.y += Math.ceil(elementsSize)
         startGame()
     }
 }
 function moveLeft () {
-    if((playerPosition.x - elementsSize) >= elementsSize) {
-        playerPosition.x -= elementsSize
+    if((playerPosition.x - Math.ceil(elementsSize)) >= Math.ceil(elementsSize)) {
+        playerPosition.x -= Math.ceil(elementsSize)
         startGame()
     }
 }
 function moveRight () {
-    if((playerPosition.x + elementsSize) < canvasSize ) {
-        playerPosition.x += elementsSize
+    if((playerPosition.x + Math.ceil(elementsSize)) < Math.ceil(canvasSize) ) {
+        playerPosition.x += Math.ceil(elementsSize)
         startGame()
     }
 }
 
 //GANAR O PERDER
 function levelWin() {
-    console.log("Ganaste");
     level++
     startGame() 
 }
 function levelLose() {
     lives--
-    console.log("Perdiste");
 
     if (lives <= 0) {
         level = 0
@@ -189,7 +188,6 @@ function levelLose() {
     startGame()   
 }
 function gameWin() {
-    console.log("Terminaste el juego");
     clearInterval(timeInterval)
 
     const recordStorage = localStorage.getItem('record')
@@ -203,7 +201,7 @@ function gameWin() {
         }
     } else {
         localStorage.setItem('record', timeActual)  
-        resultP.innerHTML = 'Dalo todo en tu primera vez 😁'
+        resultP.innerHTML = 'Lo diste todo en tu primera vez, trata de mejorar 😁'
     }
 }
 function showLives() {
