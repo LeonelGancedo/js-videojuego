@@ -42,14 +42,14 @@ function setCanvasSize () {
     canvasSize = Number(canvasSize.toFixed(0))
     canvas.setAttribute('width', canvasSize)
     canvas.setAttribute('height', canvasSize)
-    elementsSize = (canvasSize / 11)
+    elementsSize = (canvasSize / 10)
     playerPosition.x = undefined
     playerPosition.y = undefined
     startGame()
 }
 function startGame() {
     game.font = elementsSize + "px Verdana"
-    game.textAlign = "center"
+    game.textAlign = "end"
 
     const map = maps[level]
 
