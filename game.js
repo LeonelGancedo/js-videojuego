@@ -6,6 +6,9 @@ const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
 const livesCount = document.querySelector('#livesId')
 const timeCount = document.querySelector('#timeId')
+const recordCount = document.querySelector('#recordId')
+const resultP = document.querySelector('#result')
+
 
 let canvasSize;
 let elementsSize;
@@ -15,7 +18,6 @@ let lives = 3
 let timeStart;
 let timePlayer;
 let timeInterval;
-let timeActual;
 
 
 const playerPosition = {
@@ -54,6 +56,7 @@ function startGame() {
     if (!timeStart) {
         timeStart = Date.now()
         timeInterval = setInterval(showTime,100)
+        showRecord()
     }
 
     const mapRowCols = map.trim().split("\n").map(row => row.trim().split(""))
@@ -180,13 +183,25 @@ function levelLose() {
 
     playerPosition.x = undefined
     playerPosition.y = undefined
-    startGame()
-    
+    startGame()   
 }
 function gameWin() {
     console.log("Terminaste el juego");
     clearInterval(timeInterval)
-    recordTime()
+
+    const recordStorage = localStorage.getItem('record')
+
+    if (recordStorage) {
+        if (recordStorage >timeActual) {
+            localStorage.setItem('record', timeActual)
+            resultP.innerHTML = 'Mejoraste tu record 🏆'
+        } else {
+            resultP.innerHTML = 'Casi pero no 😢. Intentalo de nuevo 💪'
+        }
+    } else {
+        localStorage.setItem('record', timeActual)  
+        resultP.innerHTML = 'Dalo todo en tu primera vez 😁'
+    }
 }
 function showLives() {
     livesCount.innerHTML = emojis["HEART"].repeat(lives)
@@ -195,20 +210,6 @@ function showTime() {
     timeActual = Date.now() - timeStart
     timeCount.innerHTML = timeActual
 }
-function recordTime () {
-    let bestTime;
-    let recordStorage = localStorage.getItem('record')
-
-    if(!bestTime) {
-        bestTime = timeActual
-        localStorage.setItem('record', bestTime)
-        return
-    }
-
-    if (recordStorage) {
-        if (bestTime < recordStorage) {
-            localStorage.clear('record')
-            localStorage.setItem('record', bestTime)
-        }
-    }
+function showRecord() {
+    recordCount.innerHTML = localStorage.getItem('record')
 }
