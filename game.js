@@ -18,6 +18,8 @@ const giftPosition = {
     x: undefined,
     y: undefined
 }
+let enemyPositions = []
+
 
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
@@ -35,14 +37,16 @@ function startGame() {
     game.textAlign = "center"
     const mapRowCols = map.trim().split("\n").map(row => row.trim().split(""))
 
+    //Liempieza
     game.clearRect(0,0, canvasSize, canvasSize)
+    enemyPositions = []
 
     mapRowCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
         let emoji = emojis[col]
         let x = elementsSize * (colIndex + 1)
         let y = elementsSize * (rowIndex + 1)
-
+                
         if(col == "O") {
             if (!playerPosition.x && !playerPosition.y) {
                 playerPosition.x = x
@@ -52,6 +56,11 @@ function startGame() {
         } else if (col == "I") {
             giftPosition.x = x
             giftPosition.y = y
+        } else if (col == "X") {
+            enemyPositions.push({
+                x: x,
+                y: y,
+            })
         }
 
         game.fillText(emoji, x, y)
@@ -67,8 +76,20 @@ function movePlayer () {
     const giftColision = giftColisionX && giftColisionY
 
     if(giftColision) {
-        console.log("Terminaste");
+        console.log("Ganaste");
     }
+
+    const enemyColsion = enemyPositions.find(enemy => {
+        const enemyColsionX = enemy.x.toFixed(2) == playerPosition.x.toFixed(2)
+        const enemyColsionY = enemy.y.toFixed(2) == playerPosition.y.toFixed(2)
+        return enemyColsionX && enemyColsionY        
+    })
+
+    if(enemyColsion) {
+        console.log("Perdiste");
+    }
+
+
     game.fillText(emojis["PLAYER"], playerPosition.x, playerPosition.y)
 }
 
