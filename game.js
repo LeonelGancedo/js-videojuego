@@ -39,11 +39,11 @@ function setCanvasSize () {
     window.innerHeight > window.innerWidth ? 
     canvasSize = window.innerWidth * 0.7 : canvasSize = window.innerHeight * 0.7
 
-    canvasSize = Math.ceil(canvasSize)
+    canvasSize = fixedNumber(canvasSize)
     canvas.setAttribute('width', canvasSize)
     canvas.setAttribute('height', canvasSize)
-    elementsSize = Math.ceil((canvasSize / 10))
-    
+    elementsSize = fixedNumber((canvasSize / 10))
+
     playerPosition.x = undefined
     playerPosition.y = undefined
     startGame()
@@ -75,8 +75,8 @@ function startGame() {
     mapRowCols.forEach((row, rowIndex) => {
         row.forEach((col, colIndex) => {
         let emoji = emojis[col]
-        let x = Math.ceil(elementsSize * (colIndex + 1))
-        let y = Math.ceil(elementsSize * (rowIndex + 1))
+        let x = fixedNumber(elementsSize * (colIndex + 1))
+        let y = fixedNumber(elementsSize * (rowIndex + 1))
                 
         if(col == "O") {
             if (!playerPosition.x && !playerPosition.y) {
@@ -145,26 +145,26 @@ function moveKeys (e) {
     }
 }
 function moveUp () {
-    if ((playerPosition.y - Math.ceil(elementsSize))>= Math.ceil(elementsSize)) {
-        playerPosition.y -= Math.ceil(elementsSize)
+    if ((fixedNumber(playerPosition.y) - fixedNumber(elementsSize))>= fixedNumber(elementsSize)) {
+        playerPosition.y -= fixedNumber(elementsSize)
         startGame()  
     }
 }
 function moveDown () {
-    if((playerPosition.y + Math.ceil(elementsSize)) < Math.ceil(canvasSize)) {
-        playerPosition.y += Math.ceil(elementsSize)
+    if((fixedNumber(playerPosition.y) + fixedNumber(elementsSize)) < fixedNumber(canvasSize)) {
+        playerPosition.y += fixedNumber(elementsSize)
         startGame()
     }
 }
 function moveLeft () {
-    if((playerPosition.x - Math.ceil(elementsSize)) >= Math.ceil(elementsSize)) {
-        playerPosition.x -= Math.ceil(elementsSize)
+    if((fixedNumber(playerPosition.x) - fixedNumber(elementsSize)) >= fixedNumber(elementsSize)) {
+        playerPosition.x -= fixedNumber(elementsSize)
         startGame()
     }
 }
 function moveRight () {
-    if((playerPosition.x + Math.ceil(elementsSize)) < Math.ceil(canvasSize) ) {
-        playerPosition.x += Math.ceil(elementsSize)
+    if((fixedNumber(playerPosition.x) + fixedNumber(elementsSize)) < fixedNumber(canvasSize) ) {
+        playerPosition.x += fixedNumber(elementsSize)
         startGame()
     }
 }
