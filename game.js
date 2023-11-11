@@ -5,11 +5,18 @@ const btnLeft = document.querySelector('#left')
 const btnRight = document.querySelector('#right')
 const btnDown = document.querySelector('#down')
 const livesCount = document.querySelector('#livesId')
+const timeCount = document.querySelector('#timeId')
 
 let canvasSize;
 let elementsSize;
 let level = 0
 let lives = 3
+
+let timeStart;
+let timePlayer;
+let timeInterval;
+let timeActual;
+
 
 const playerPosition = {
     x: undefined,
@@ -44,6 +51,11 @@ function startGame() {
         gameWin()
         return
     }
+    if (!timeStart) {
+        timeStart = Date.now()
+        timeInterval = setInterval(showTime,100)
+    }
+
     const mapRowCols = map.trim().split("\n").map(row => row.trim().split(""))
 
     //Liempieza
@@ -163,6 +175,7 @@ function levelLose() {
     if (lives <= 0) {
         level = 0
         lives = 3
+        timeStart = undefined
     }
 
     playerPosition.x = undefined
@@ -172,7 +185,30 @@ function levelLose() {
 }
 function gameWin() {
     console.log("Terminaste el juego");
+    clearInterval(timeInterval)
+    recordTime()
 }
 function showLives() {
     livesCount.innerHTML = emojis["HEART"].repeat(lives)
+}
+function showTime() {
+    timeActual = Date.now() - timeStart
+    timeCount.innerHTML = timeActual
+}
+function recordTime () {
+    let bestTime;
+    let recordStorage = localStorage.getItem('record')
+
+    if(!bestTime) {
+        bestTime = timeActual
+        localStorage.setItem('record', bestTime)
+        return
+    }
+
+    if (recordStorage) {
+        if (bestTime < recordStorage) {
+            localStorage.clear('record')
+            localStorage.setItem('record', bestTime)
+        }
+    }
 }
