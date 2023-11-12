@@ -243,8 +243,8 @@ function secondsToString(miliseconds) {
     minute = (minute < 10)? '0' + minute : minute;
     let second = Math.floor(miliseconds / 1000);
     second = (second < 10)? '0' + second : second;
-    let milisecond = Math.floor(miliseconds % 100);
-    milisecond = (milisecond < 10)? '0' + milisecond : milisecond;
+    let milisecond = Math.floor(miliseconds % 1000);
+    milisecond = (milisecond < 100)? '0' + milisecond : milisecond;
     return minute + ':' + second + ':' + milisecond;
   }
 
