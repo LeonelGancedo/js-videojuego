@@ -12,9 +12,11 @@ body {
 
 .game-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    align-content: center;
+    flex-wrap: nowrap;
     height: 100vh;
     width: 100vw;
 }
@@ -29,7 +31,7 @@ canvas {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 0 auto;
+    margin: 40px auto;
     width: 100%;
 }
 
@@ -51,8 +53,10 @@ button:not(:last-child) {
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
+    margin-bottom: 5px;
     width: 80%;
     max-width: 460px;
+    text-align: center;
 }
 
 p {

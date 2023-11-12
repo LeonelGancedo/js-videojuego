@@ -40,6 +40,7 @@ const giftPosition = {
 let enemyPositions = []
 
 
+
 window.addEventListener('load', setCanvasSize)
 window.addEventListener('resize', setCanvasSize)
 
@@ -121,6 +122,7 @@ function movePlayer () {
     const enemyColsion = enemyPositions.find(enemy => {
         const enemyColsionX = enemy.x.toFixed(2) == playerPosition.x.toFixed(2)
         const enemyColsionY = enemy.y.toFixed(2) == playerPosition.y.toFixed(2)
+
         return enemyColsionX && enemyColsionY        
     })
 
@@ -185,12 +187,12 @@ function levelWin() {
 }
 function levelLose() {
     lives--
-
     if (lives <= 0) {
         level = 0
         lives = 3
         timeStart = undefined
     }
+
 
     playerPosition.x = undefined
     playerPosition.y = undefined
@@ -204,17 +206,17 @@ function gameWin() {
     if (recordStorage) {
         if (recordStorage >timeActual) {
             localStorage.setItem('record', timeActual)
-            timeCountFinal.innerHTML = timeActual
+            timeCountFinal.innerHTML = secondsToString(timeActual)
             resultP.innerHTML = 'Mejoraste tu record 🏆'
             resetGame()
         } else {
-            timeCountFinal.innerHTML = timeActual
+            timeCountFinal.innerHTML = secondsToString(timeActual)
             resultP.innerHTML = 'Casi pero no 😢. Intentalo de nuevo 💪'
             resetGame()
         }
     } else {
         localStorage.setItem('record', timeActual)  
-        timeCountFinal.innerHTML = timeActual
+        timeCountFinal.innerHTML = secondsToString(timeActual)
         resultP.innerHTML = 'Lo diste todo en tu primera vez, trata de mejorar 😁'
         resetGame()
 
@@ -225,17 +227,26 @@ function showLives() {
 }
 function showTime() {
     timeActual = Date.now() - timeStart
-    timeCount.innerHTML = timeActual
+    timeCount.innerHTML = secondsToString(timeActual)
 }
 function showRecord() {
-    recordCount.innerHTML = localStorage.getItem('record')
-    recordCountFinal.innerHTML = localStorage.getItem('record')
+    recordCount.innerHTML = secondsToString(localStorage.getItem('record'))
+    recordCountFinal.innerHTML = secondsToString(localStorage.getItem('record'))
 }
 
 //Numeros
 function fixedNumber(n) {
     return Number(n.toFixed(0))
 }
+function secondsToString(miliseconds) {
+    let minute = Math.floor(miliseconds / 60000);
+    minute = (minute < 10)? '0' + minute : minute;
+    let second = Math.floor(miliseconds / 1000);
+    second = (second < 10)? '0' + second : second;
+    let milisecond = Math.floor(miliseconds % 100);
+    milisecond = (milisecond < 10)? '0' + milisecond : milisecond;
+    return minute + ':' + second + ':' + milisecond;
+  }
 
 //REINTENTAR AL PERDER
 function resetGame(){
