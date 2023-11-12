@@ -26,6 +26,8 @@ let lives = 3
 let timeStart;
 let timePlayer;
 let timeInterval;
+let timeShowLose;
+let timeShowWin;
 
 
 const playerPosition = {
@@ -188,11 +190,10 @@ function levelWin() {
 function levelLose() {
     lives--
     if (lives <= 0) {
-        level = 0
-        lives = 3
-        timeStart = undefined
-    }
-
+        showLose()
+        timeShowLose = setTimeout(resetLose,1000)
+        return
+}
 
     playerPosition.x = undefined
     playerPosition.y = undefined
@@ -208,18 +209,20 @@ function gameWin() {
             localStorage.setItem('record', timeActual)
             timeCountFinal.innerHTML = secondsToString(timeActual)
             resultP.innerHTML = 'Mejoraste tu record 🏆'
-            resetGame()
+            showWin()
+            timeShowWin = setTimeout(resetGame,1000)
         } else {
             timeCountFinal.innerHTML = secondsToString(timeActual)
             resultP.innerHTML = 'Casi pero no 😢. Intentalo de nuevo 💪'
-            resetGame()
+            showWin()
+            timeShowWin = setTimeout(resetGame,1000)
         }
     } else {
         localStorage.setItem('record', timeActual)  
         timeCountFinal.innerHTML = secondsToString(timeActual)
         resultP.innerHTML = 'Lo diste todo en tu primera vez, trata de mejorar 😁'
-        resetGame()
-
+        showWin()
+        timeShowWin = setTimeout(resetGame,1000)
     }
 }
 function showLives() {
@@ -232,6 +235,52 @@ function showTime() {
 function showRecord() {
     recordCount.innerHTML = secondsToString(localStorage.getItem('record'))
     recordCountFinal.innerHTML = secondsToString(localStorage.getItem('record'))
+}
+function showLose() {
+    game.clearRect(0,0, canvasSize, canvasSize)
+    clearInterval(timeInterval)
+    timeCount.innerHTML = "--:--:---"
+    livesCount.innerHTML = emojis["PLAYER"].repeat(3)
+
+    const map = maps[level]
+
+    const mapRowCols = map.trim().split("\n").map(row => row.trim().split(""))
+    mapRowCols.forEach((row, rowIndex) => {
+        row.forEach((col, colIndex) => {
+        let emoji = emojis["BOMB_COLLISION"]
+        let x = fixedNumber(elementsSize * (colIndex + 1))
+        let y = fixedNumber(elementsSize * (rowIndex + 1))              
+
+        game.fillText(emoji, x, y)
+        })
+    });
+
+    playerPosition.x = undefined
+    playerPosition.y = undefined
+
+}
+function resetLose() {
+    level = 0
+    lives = 3
+    timeStart = undefined
+    startGame()
+}
+function showWin() {
+    game.clearRect(0,0, canvasSize, canvasSize)
+    const map = maps[0]
+    const mapRowCols = map.trim().split("\n").map(row => row.trim().split(""))
+    mapRowCols.forEach((row, rowIndex) => {
+        row.forEach((col, colIndex) => {
+        let emoji = emojis["WIN"]
+        let x = fixedNumber(elementsSize * (colIndex + 1))
+        let y = fixedNumber(elementsSize * (rowIndex + 1))              
+
+        game.fillText(emoji, x, y)
+        })
+    });
+
+    playerPosition.x = undefined
+    playerPosition.y = undefined
 }
 
 //Numeros
